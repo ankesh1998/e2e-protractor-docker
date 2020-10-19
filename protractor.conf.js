@@ -5,6 +5,7 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
   allScriptsTimeout: 11000,
+  useAllAngular2AppRoots: true,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
@@ -18,12 +19,13 @@ exports.config = {
         '--headless',
         '--no-sandbox',
         '--disable-web-security',
-        '--disable-dev-shm-usage'
+        '--disable-dev-shm-usage',
+        "--disable-gpu", "--window-size=800x600"
       ]
     }
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:4200/wd/hub',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

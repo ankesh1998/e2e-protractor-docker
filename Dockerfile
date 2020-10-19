@@ -18,12 +18,16 @@ RUN apt-get update && \
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 
-# Latest Ubuntu Google Chrome, XVFB and JRE installs
+# Latest Ubuntu Firefox, Google Chrome, XVFB and JRE installs
 RUN apt-get update -qqy \
   && apt-get -qqy install \
     xvfb \
+    firefox=45.0.2+build1-0ubuntu1 \
     google-chrome-stable \
-    default-jre
+    default-jre \
+    openjdk-8-jre-headless
+
+RUN sudo apt-mark hold firefox
 
 
 # Clean clears out the local repository of retrieved package files. Run apt-get clean from time to time to free up disk space.
@@ -36,26 +40,22 @@ RUN apt-get clean \
 # RUN rm -fr /root/tmp
 
     
-FROM node:10.21.0-alpine as build-step
+FROM node:12.2.0 as build-step
 WORKDIR /app
 
 COPY . .
 
 RUN npm install
-RUN /app/node_modules/protractor/bin/webdriver-manager clean
-RUN /app/node_modules/protractor/bin/webdriver-manager update
+RUN npm run protractor-version
+# RUN /app/node_modules/protractor/bin/webdriver-manager clean
+# RUN /app/node_modules/protractor/bin/webdriver-manager update
   # update Protractor and Selenium including ChromeDriver
 RUN npm run webdriver-update
   # launch Selenium standalone in the background
 RUN npm run webdriver-start
-
+RUN npm run webdriver-status
 RUN npm run e2e
 RUN npm run build-prod
 
 FROM nginx:1.16.1-alpine as prod-stage
 COPY --from=build-step /app/dist /usr/share/nginx/html
-
-# Start nginx via script, which replaces static urls with environment variables
-#ADD setup.sh /usr/share/nginx/setup.sh
-#RUN chmod +x /usr/share/nginx/setup.sh
-#CMD /usr/share/nginx/setup.sh
