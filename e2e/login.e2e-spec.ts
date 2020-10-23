@@ -19,6 +19,8 @@ describe('Login tests', () => {
     });
 
     it('Login form should be invalid', () => {
+        // page.getEmailTextbox().sendKeys('info@sibeeshpassion.com');
+        // page.getPasswordTextbox().sendKeys('1234');
         page.getEmailTextbox().sendKeys('');
         page.getPasswordTextbox().sendKeys('');
 

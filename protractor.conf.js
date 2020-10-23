@@ -4,6 +4,7 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 
 exports.config = {
+  seleniumAddress: 'http://192.168.43.231:4444/wd/hub',
   allScriptsTimeout: 11000,
   useAllAngular2AppRoots: true,
   specs: [
@@ -11,21 +12,18 @@ exports.config = {
   ],
   capabilities: {
     'browserName': 'chrome',
-    /**
-     * Chrome is not allowed to create a SUID sandbox when running inside Docker
-     */
-    'chromeOptions': {
-      'args': [
-        '--headless',
-        '--no-sandbox',
-        '--disable-web-security',
-        '--disable-dev-shm-usage',
-        "--disable-gpu", "--window-size=800x600"
-      ]
-    }
+    // 'chromeOptions': {
+    //   'args': [
+    //     '--headless',
+    //     '--no-sandbox',
+    //     '--disable-web-security',
+    //     '--disable-dev-shm-usage',
+    //     "--disable-gpu", "--window-size=800x600"
+    //   ]
+    // }
   },
-  directConnect: true,
-  baseUrl: 'http://localhost:4200/wd/hub',
+  // directConnect: true,
+  // baseUrl: 'http://localhost:4200/wd/hub',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

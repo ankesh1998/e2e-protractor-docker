@@ -9,11 +9,11 @@
     "build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "ng e2e --port 80 --host 172.18.0.5",
     "webdriver-start": "webdriver-manager start &",
     "webdriver-status": "webdriver-manager status",
     "webdriver-update": "webdriver-manager update",
-    "protractor-version" : "protractor --version"
+    "protractor-version": "protractor --version"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +51,7 @@
     "karma-jasmine": "^1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "5.4.3",
+    "concurrently": "^5.3",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.4.2"
